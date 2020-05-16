@@ -5,6 +5,7 @@ import org.seasar.doma.SingletonConfig;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.dialect.H2Dialect;
+import org.seasar.doma.jdbc.dialect.PostgresDialect;
 import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
 import org.seasar.doma.jdbc.tx.LocalTransactionManager;
 import org.seasar.doma.jdbc.tx.TransactionManager;
@@ -21,9 +22,23 @@ public class DbConfig implements Config {
   private final TransactionManager transactionManager;
 
   private DbConfig() {
-    dialect = new H2Dialect();
-    dataSource =
-        new LocalTransactionDataSource("jdbc:h2:mem:tutorial;DB_CLOSE_DELAY=-1", "sa", null);
+    String envDialect = System.getenv("DOMA2_DIALECT");
+    switch (envDialect) {
+      case "H2":
+        dialect = new H2Dialect();
+        break;
+      case "PostgreSQL":
+        dialect = new PostgresDialect();
+        break;
+      default:
+        throw new AssertionError("Invalid environment of DOMA2_DIALECT " + envDialect);
+    }
+
+    String url = System.getenv("DOMA2_DATASOURCE_URL");
+    String username = System.getenv("DOMA2_DATASOURCE_USERNAME");
+    String password = System.getenv("DOMA2_DATASOURCE_PASSWORD");
+
+    dataSource = new LocalTransactionDataSource(url, username, password);
     transactionManager =
         new LocalTransactionManager(dataSource.getLocalTransaction(getJdbcLogger()));
   }

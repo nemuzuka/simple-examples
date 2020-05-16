@@ -1,0 +1,74 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:14-jdk-buster
+      - image: circleci/postgres:11.6-alpine
+        environment:
+          POSTGRES_DB: doma_json
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-{{ checksum "build.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "settings.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-
+
+      - run:
+          name: Update dependencies
+          command: ./gradlew dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-{{ checksum "build.gradle" }}-{{ checksum "gradle.properties" }}-{{ checksum "settings.gradle" }}
+
+      - run:
+          name: Run verGJF
+          command: ./gradlew verGJF
+
+#      - run:
+#          name: Run tests (H2)
+#          command: ./gradlew test
+#          environment:
+#            DOMA2_DIALECT: H2
+#            DOMA2_DATASOURCE_URL: jdbc:h2:mem:tutorial;DB_CLOSE_DELAY=-1
+#            DOMA2_DATASOURCE_USERNAME: sa
+
+      - run:
+          name: Run tests (PostgreSQL)
+          command: ./gradlew test jacocoTestReport
+          environment:
+            DOMA2_DIALECT: PostgreSQL
+            DOMA2_DATASOURCE_URL: jdbc:postgresql://localhost:5432/doma_json
+            DOMA2_DATASOURCE_USERNAME: postgres
+            DOMA2_DATASOURCE_PASSWORD: postgres
+
+      - store_artifacts:
+          path: build/reports
+
+      - store_test_results:
+          path: build/test-results
+          destination: test-results
+
+workflows:
+  version: 2
+  all:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/

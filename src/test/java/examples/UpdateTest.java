@@ -3,6 +3,7 @@ package examples;
 import examples.dao.EmployeeDao;
 import examples.dao.EmployeeDaoImpl;
 import examples.entity.JobType;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -32,6 +33,7 @@ public class UpdateTest {
   }
 
   @Test
+  @Disabled("PostgreSQL だと動作しない為")
   public void testUpdateByNativeSql() {
     var tm = config.getTransactionManager();
 

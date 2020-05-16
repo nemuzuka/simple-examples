@@ -1,15 +1,16 @@
-Simple Examples [![Build Status](https://travis-ci.org/domaframework/simple-examples.png?branch=master)](https://travis-ci.org/domaframework/simple-examples)
+Simple Examples
 ========================================
 
 Simple examples for [Doma](https://github.com/domaframework/doma).
 
-Clone this repository
----------------------
+Environment
+------------
 
-```bash
-$ git clone https://github.com/domaframework/simple-examples.git
-$ cd simple-examples
-```
+* `DOMA2_DIALECT`: `H2` or `PostgreSQL`
+* `DOMA2_DATASOURCE_URL`: datasource url
+    * e.g. `jdbc:postgresql://localhost:5432/doma_json`
+* `DOMA2_DATASOURCE_USERNAME`: datasource username
+* `DOMA2_DATASOURCE_PASSWORD`: datasource password
 
 Java version
 ------------
@@ -30,18 +31,13 @@ Import the project into your IDE
 
 Import the project as a Gradle project.
 
-### Eclipse
 
-Before importing the project into Eclipse, run the following command:
+何のテスト？
+-------
 
-```bash
-$ ./gradlew cleanEclipse eclipse
-```
+JSON 型を doma2 で扱う動作確認。
+H2 と PostgreSQL で検証している。
 
-The `eclipse` task generates Eclipse setting files.  
-We recommend you write settings on build.gradle and run this task
-whenever you have to change settings about annotation processing.
-Never change Eclipse directly.
 
 License
 -------

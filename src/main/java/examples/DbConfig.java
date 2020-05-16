@@ -31,15 +31,14 @@ public class DbConfig implements Config {
         dialect = new PostgresDialect();
         break;
       default:
-        throw new AssertionError("Invalid environment of DOMA2_DIALECT "+envDialect);
+        throw new AssertionError("Invalid environment of DOMA2_DIALECT " + envDialect);
     }
 
     String url = System.getenv("DOMA2_DATASOURCE_URL");
     String username = System.getenv("DOMA2_DATASOURCE_USERNAME");
     String password = System.getenv("DOMA2_DATASOURCE_PASSWORD");
 
-    dataSource =
-        new LocalTransactionDataSource(url, username, password);
+    dataSource = new LocalTransactionDataSource(url, username, password);
     transactionManager =
         new LocalTransactionManager(dataSource.getLocalTransaction(getJdbcLogger()));
   }

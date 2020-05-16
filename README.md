@@ -8,7 +8,7 @@ Environment
 
 * `DOMA2_DIALECT`: `H2` or `PostgreSQL`
 * `DOMA2_DATASOURCE_URL`: datasource url
-    * e.g. `jdbc:postgresql://localhost:15432/doma_json`
+    * e.g. `jdbc:postgresql://localhost:5432/doma_json`
 * `DOMA2_DATASOURCE_USERNAME`: datasource username
 * `DOMA2_DATASOURCE_PASSWORD`: datasource password
 

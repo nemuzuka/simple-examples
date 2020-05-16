@@ -12,17 +12,17 @@ import org.seasar.doma.Table;
 @Data
 public class Customer {
 
-    @Id
-    @Column(name = "customer_id")
-    private String customerId;
+  @Id
+  @Column(name = "customer_id")
+  private String customerId;
 
-    @Column(name = "customer_code")
-    private String customerCode;
+  @Column(name = "customer_code")
+  private String customerCode;
 
-    @Column(name = "customer_name")
-    private String customerName;
+  @Column(name = "customer_name")
+  private String customerName;
 
-    /** 永続化時に JSON カラムにするプロパティ. */
-    @Column(name = "attribute")
-    private Attribute attribute;
+  /** 永続化時に JSON カラムにするプロパティ. */
+  @Column(name = "attribute")
+  private Attribute attribute;
 }

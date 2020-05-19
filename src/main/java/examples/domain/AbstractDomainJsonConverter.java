@@ -4,7 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.seasar.doma.jdbc.domain.DomainConverter;
 
-public abstract class AbstractDomainConverter<T> implements DomainConverter<T, String> {
+/**
+ * 永続化先を JSON 文字列にする場合の基底 Converter.
+ *
+ * <p>本 class を extends して `@ExternalDomain` を付与し、 `@DomainConverters` に追加してください。
+ *
+ * @param <T> 対象 Domain の型パラメータ
+ */
+public abstract class AbstractDomainJsonConverter<T> implements DomainConverter<T, String> {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
